@@ -1,0 +1,21 @@
+# Large data files
+*.zip
+*.gdb/
+*.dbf
+*.shp
+*.shx
+*.prj
+*.sbn
+*.sbx
+*.cpg
+*.xml
+
+# System files
+.DS_Store
+
+# Excel outputs (keep Python script only)
+*.xlsx
+
+# Python cache
+__pycache__/
+*.pyc
