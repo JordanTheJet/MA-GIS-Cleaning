@@ -1,0 +1,265 @@
+Code,Description
+013,Multiple-Use primarily Residential
+021,Multiple-Use primarily Open Space
+031,Multiple-Use primarily Commercial
+037,Multiple-Use primarily Commercial with part of land designated under Chapter 61A use
+101,Single Family
+102,Condominium
+103,Mobile Home (includes land used for purpose of a mobile home park)
+104,Two-Family
+105,Three-Family
+106,Accessory Land with Improvement - garage etc.
+109,Multiple Houses on one parcel (for example a single and a two-family on one parcel)
+111,Four to Eight Units
+112,More than Eight Units
+114,Affordable Housing Units (Greater than 50% of the units qualify) Categorize per MGL 184 § 26 § 31
+121,Rooming and Boarding Houses
+122,Fraternity and Sorority Houses
+123,Residence Halls or Dormitories
+124,Rectories Convents Monasteries
+125,Other Congregate Housing which includes non-transient shared living arrangements
+130,Developable Land
+131,Potentially Developable Land
+132,Undevelopable Land
+140,Child Care Facility (M.G.L. Chapters 59 §3F; 40A §9C)
+201,Residential Open Land
+202,Underwater Land or Marshes not under public ownership located in residential area
+210,Non-Productive Agricultural Land (that part of an operating farm not classified as Chapter 61A Agricultural/Horticultural or Chapter 61 Forest Land)
+211,Non-Productive Vacant Land
+220,Commercial Vacant Land (acreage without site improvements and not in commercial use)
+221,Underwater Land or Marshes not under public ownership located in commercially zoned area
+230,Industrial Vacant Land (acreage without site improvements and not in commercial or industrial use)
+231,Underwater Land or Marshes not under public ownership located in industrial area
+261,All land designated under Chapter 61
+262,Christmas Trees
+270,Cranberry Bog
+271,Tobacco Sod
+272,Truck Crops - vegetables
+273,Field Crops - hay wheat tillable forage cropland etc.
+274,Orchards - pears apples grape vineyards etc.
+275,Christmas Trees
+276,Necessary related land-farm roads ponds land under farm buildings
+277,Productive Woodland - woodlots
+278,Pasture
+279,Nurseries
+280,Productive woodland -woodlots
+281,Hiking - trails or paths Camping - areas with sites for overnight camping Nature Study - areas specifically for nature study or observation
+282,Boating - areas for recreational boating and supporting land facilities
+283,Golfing - areas of land arranged as a golf course
+284,Horseback Riding - trails or areas
+285,Hunting - areas for the hunting of wildlife and Fishing Areas
+286,Alpine Skiing - areas for downhill skiing and Nordic Skiing - areas for cross-country skiing
+287,Swimming Areas and Picnicking Areas
+288,Public Non-Commercial Flying - areas for gliding or hand-gliding
+289,Target Shooting - areas for target shooting such as archery skeet or approved fire-arms
+290,Wet land scrub land rock land
+300,Hotels
+301,Motels
+302,Inns Resorts or Tourist Homes
+304,Nursing Homes - includes property designed for minimal care with or without medical facilities
+305,Private Hospitals
+306,Care and Treatment Facilities - designed and used on a transient basis including half-way houses or other types of facilities that service the needs of people
+310,Tanks Holding Fuel and Oil Products for Retail Distribution either Above Ground or Underground
+311,Bottled Gas and Propane Gas Tanks
+312,Grain and Feed Elevators
+313,Lumber Yards
+314,Trucking Terminals
+315,Piers Wharves Docks and related facilities that are used for storage and transit of goods
+316,Other Storage Warehouse and Distribution facilities
+317,Farm Buildings - barns silo utility shed etc.
+318,Commercial Greenhouses
+321,Facilities providing building materials hardware and farm equipment heating hardware plumbing lumber supplies and equipment
+322,Discount Stores Junior Department Stores Department Stores
+323,Shopping Centers/Malls
+324,Supermarkets (in excess of 10000 sq. ft.)
+325,Small Retail and Services stores (under 10000 sq. ft.)
+326,Eating and Drinking Establishments - restaurants diners fast food establishments bars nightclubs
+330,Automotive Vehicles Sales and Service
+331,Automotive Supplies Sales and Service
+332,Auto Repair Facilities
+333,Fuel Service Areas - providing only fuel products
+334,Gasoline Service Stations - providing engine repair or maintenance services and fuel products
+335,Car Wash Facilities
+336,Parking Garages
+337,Parking Lots - a commercial open parking lot for motor vehicles
+338,Other Motor Vehicles Sales and Services
+340,General Office Buildings
+341,Bank Buildings
+342,Medical Office Buildings
+350,Property Used for Postal Services
+351,Educational Properties
+352,Day Care Centers Adult
+353,Fraternal Organizations
+354,Bus Transportation Facilities and Related Properties
+355,Funeral Homes
+356,Miscellaneous Public Services - professional membership organizations business associations etc.
+360,Museums
+361,Art Galleries
+362,Motion Picture Theaters
+363,Drive-In Movies
+364,Legitimate Theaters
+365,Stadiums
+366,Arenas and Field Houses
+367,Race Tracks
+368,Fairgrounds and Amusement Parks
+369,Other Cultural and Entertainment Properties
+370,Bowling
+371,Ice Skating
+372,Roller Skating
+373,Swimming Pools
+374,Health Spas
+375,Tennis and/or Racquetball Clubs
+376,Gymnasiums and Athletic Clubs
+377,Archery Billiards other indoor facilities
+380,Golf Courses
+381,Tennis Courts
+382,Riding Stables
+383,Beaches or Swimming Pools
+384,Marinas - including marine terminals & associated areas primarily for recreational marine craft
+385,Fish and Game Clubs
+386,Camping Facilities - accommodations for tents campers or travel trailers
+387,Summer Camps - children's camps
+388,Other Outdoor facilities - e.g. driving ranges miniature golf baseball batting ranges etc.
+389,Structures on land classified under Chapter 61B Recreational Land
+390,Developable Land
+391,Potentially developable Land
+392,Undevelopable Land
+393,Agricultural/Horticultural Land not included in Chapter 61A
+400,Buildings for manufacturing operations
+401,Warehouses for storage of manufactured products
+402,Office Building - part of manufacturing operation
+403,Land - integral part of manufacturing operation
+404,Research and Development facilities
+410,Sand and Gravel
+411,Gypsum
+412,Rock
+413,Other
+420,Tanks
+421,Liquid Natural Gas Tanks
+423,Electric Transmission Right-of-Way
+424,Electricity Regulating Substations
+425,Gas Production Plants
+426,Gas Pipeline Right-of Way
+427,Natural or Manufactured Gas Storage
+428,Gas Pressure Control Stations
+430,Telephone Exchange Stations
+431,Telephone Relay Towers; Cell towers
+432,Cable TV Transmitting Facilities
+433,Radio Television Transmission Facilities
+434,Telecommunication Data Centers
+440,Developable Land
+441,Potentially Developable Land
+442,Undevelopable Land
+450,Electric Generation Plants
+451,Electric Generation Plants Renewable Energy
+452,Electric Generation Plants Agreement Value
+501,Individuals Partnerships Associations Trusts Limited Liability Companies and other non-incorporated entities filing for federal income tax purposes as nonincorporated entities
+502,Business Corporations as defined in Chapter 63 §30 and taxable under Chapter 63§39 including unincorporated entities treated as corporations for federal income tax purposes
+503,Classified Manufacturing Corporations as defined in Ch. 63 §42B including unincorporated entities treated as corporations for federal income tax purposes
+504,Utility Corporations other than Telephone and Pipeline Corporation taxed as business corporations including unincorporated entities treated as corporations for federal income tax purposes
+505,Machinery Poles Wires and Underground Conduits Wires and Pipes of all Telephone and Telegraph Companies as determined by the Commissioner of Revenue
+506,Pipelines of 25 Miles or More in Length for Transmitting Natural Gas or Petroleum as determined by the Commissioner of Revenue
+508,Cellular/Mobile Wireless Telecommunications Companies
+550,Electric Generation Plants Personal Property
+551,Electric Generation Plant P.P. Renewable Energy
+552,Electric Generation P. P. Agreement Value
+601,All land designated under Chapter 61
+602,Christmas Trees
+710,Cranberry Bog
+711,Tobacco Sod
+712,Truck Crops - vegetables
+713,Field Crops - hay wheat tillable forage cropland etc.
+714,Orchards - pears apples grape vineyards etc.
+715,Christmas Trees
+716,Necessary Related Land-farm roads ponds Land under farm buildings
+717,Productive Woodland 61A with a Forest Management Plan; woodlots
+718,Pasture
+719,Nurseries
+720,Wet land scrub land rock land
+801,Hiking - trails or paths
+802,Camping - areas with sites for overnight camping
+803,Nature Study - areas specifically for nature study or observation
+804,Boating - areas for recreational boating and supporting land facilities
+805,Golfing - areas of land arranged as a golf course
+806,Horseback Riding - trails or areas
+807,Hunting - areas for the hunting of wildlife
+808,Fishing Areas
+809,Alpine Skiing - areas for downhill skiing
+810,Nordic Skiing - areas for cross-country skiing
+811,Swimming Areas
+812,Picnicking Areas
+813,Public Non-Commercial Flying - areas for gliding or hand-gliding
+814,Target Shooting - areas for target shooting such as archery skeet or approved fire-arms
+815,Productive Woodland - woodlots
+900,United States Government
+910,Department of Conservation and Recreation Division of State Parks and Recreation
+911,Division of Fish and Game Wildlife Environmental Law Enforcement
+912,Department of Corrections Division of Youth Services
+913,Department of Public Health Soldiers' Homes
+914,Department of Mental Health Department of Mental Retardation
+915,Department of Conservation and Recreation Division of Water Supply Protection
+916,Military Division – Campgrounds
+917,Education – Univ. of Mass State Colleges Community Colleges
+918,Department of Environmental Protection Low-level Radioactive Waste Management Board
+919,Other
+920,Department of Conservation and Recreation Division of Urban Parks and Recreation
+921,Division of Fish and Game DFW Environmental Law Enforcement Department of Environmental Protection
+922,Department of Corrections Division of Youth Services Mass Military State Police Sheriffs' Departments
+923,Department of Public Health Soldiers' Homes Department of Mental Health Department of Mental Retardation
+924,Mass Highway Department
+925,Department of Conservation and Recreation Division of Water Supply Protection conservation restrictions and sewer easements Urban Parks
+926,Judiciary
+927,Education – Univ. of Mass State Colleges Community Colleges
+928,Division of Capital Asset Management Bureau of State Office Buildings
+929,Other
+930,Vacant Selectmen or City Council
+931,Improved Selectmen or City Council
+932,Vacant Conservation
+933,Vacant Education
+934,Improved Education
+935,Improved Municipal Public Safety
+936,Vacant Tax Title/ Treasurer
+937,Improved Tax Title/ Treasurer
+938,Vacant District
+939,Improved District
+940,Elementary Level
+941,Secondary Level
+942,College or University
+943,Other Educational
+944,Auxiliary Athletic
+945,Affiliated Housing
+946,Vacant
+947,Other
+950,Vacant Conservation Organizations
+951,Other
+952,Auxiliary Use (Storage Barns etc.)
+953,Cemeteries
+954,Function Halls Community Centers Fraternal Organizations
+955,Hospitals
+956,Libraries Museums
+957,Charitable Services
+958,Recreation Active Use
+959,Housing Other
+960,Church Mosque Synagogue Temple etc.
+961,Rectory or Parsonage etc.
+962,Other
+970,Housing Authority
+971,Utility Authority Electric Light Sewer Water
+972,Transportation Authority
+973,Vacant Housing Authority
+974,Vacant Utility Authority
+975,Vacant Transportation Authority
+980,Vacant Selectmen or City Council Other City or Town
+981,Improved Selectmen or City Council Other City or Town
+982,Vacant Conservation Other City or Town
+985,Improved Municipal or Public Safety Other City or Town
+988,Vacant Other District
+989,Improved Other District
+990,121A Corporations
+991,Vacant County or Regional
+992,Improved County or Regional Deeds or Administration
+993,Improved Count or Regional Correctional
+994,Improved County or Regional Association Commission
+995,Other Open Space
+996,Other Non-Taxable Condominium Common Land
+997,Other

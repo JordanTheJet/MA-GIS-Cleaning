@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MA GIS USE_CODE Analyzer</title>
+
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        .header {
+            background: #2c3e50;
+            color: white;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            display: flex;
+            height: calc(100vh - 100px);
+        }
+
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-right: 1px solid #ddd;
+            overflow-y: auto;
+        }
+
+        .map-container {
+            flex: 1;
+            position: relative;
+        }
+
+        #map {
+            height: 100%;
+            width: 100%;
+        }
+
+        .upload-area {
+            margin: 1rem;
+            padding: 2rem;
+            border: 2px dashed #3498db;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #ecf0f1;
+        }
+
+        .upload-area:hover {
+            border-color: #2980b9;
+            background: #d5dbdb;
+        }
+
+        .upload-area.dragover {
+            border-color: #27ae60;
+            background: #d5f4e6;
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: #3498db;
+            margin-bottom: 1rem;
+        }
+
+        .upload-text {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+
+        .analysis-panel {
+            display: none;
+            padding: 1rem;
+        }
+
+        .status {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 4px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 0.5rem;
+        }
+
+        .buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: #3498db;
+            color: white;
+        }
+
+        .btn-success {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #95a5a6;
+            color: white;
+        }
+
+        .btn-warning {
+            background: #f39c12;
+            color: white;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .property-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .property-item {
+            padding: 0.75rem;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .property-item:hover {
+            background: #f8f9fa;
+        }
+
+        .property-item.selected {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+        }
+
+        .property-address {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .property-codes {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 0.25rem;
+        }
+
+        .property-suggestion {
+            font-size: 0.8rem;
+            color: #27ae60;
+            margin-top: 0.25rem;
+        }
+
+        .confidence-high {
+            color: #27ae60;
+        }
+
+        .confidence-medium {
+            color: #f39c12;
+        }
+
+        .confidence-low {
+            color: #e74c3c;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-container {
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3498db, #2ecc71);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .popup-content {
+            font-size: 0.9rem;
+        }
+
+        .popup-address {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-codes {
+            margin-bottom: 0.5rem;
+        }
+
+        .popup-suggestion {
+            color: #27ae60;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗺️ MA GIS USE_CODE Analyzer</h1>
+        <p>Drop a .gdb.zip file to analyze property use codes and get geospatial suggestions</p>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📁</div>
+                    <div class="upload-text">Drop your .gdb.zip file here</div>
+                    <div class="upload-hint">or click to select</div>
+                    <input type="file" id="fileInput" accept=".zip" style="display: none;">
+                </div>
+            </div>
+
+            <div class="analysis-panel" id="analysisPanel">
+                <div class="status" id="statusMsg"></div>
+
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Processing...</div>
+                </div>
+
+                <div class="stats-grid" id="statsGrid">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalProperties">-</div>
+                        <div class="stat-label">Total Properties</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="nonMatchingCount">-</div>
+                        <div class="stat-label">Non-matching Codes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="analyzedCount">-</div>
+                        <div class="stat-label">Analyzed Parcels</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="highConfidence">-</div>
+                        <div class="stat-label">High Confidence</div>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-success" id="downloadBtn" disabled>📊 Download Results</button>
+                    <button class="btn btn-primary" id="viewAllBtn" disabled>🗺️ View All</button>
+                </div>
+
+                <div class="buttons">
+                    <button class="btn btn-secondary" id="downloadRawBtn" disabled>📄 Download Raw Data</button>
+                    <button class="btn btn-warning" id="downloadCleanedBtn" disabled>✅ Download Cleaned Data</button>
+                </div>
+
+                <div class="property-list" id="propertyList">
+                    <!-- Properties will be loaded here -->
+                </div>
+            </div>
+        </div>
+
+        <div class="map-container">
+            <div id="map"></div>
+        </div>
+    </div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Global variables
+        let map;
+        let currentLayer = null;
+        let analysisData = null;
+        let propertyMarkers = [];
+
+        // Initialize map
+        function initMap() {
+            // Center on Massachusetts
+            map = L.map('map').setView([42.3601, -71.0589], 8);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // Add Massachusetts boundary (simplified)
+            const maBounds = [
+                [41.2, -73.5],
+                [42.9, -69.9]
+            ];
+
+            L.rectangle(maBounds, {
+                color: '#3498db',
+                weight: 2,
+                fillOpacity: 0.1
+            }).addTo(map);
+        }
+
+        // File upload handling
+        function setupFileUpload() {
+            const uploadArea = document.getElementById('uploadArea');
+            const fileInput = document.getElementById('fileInput');
+
+            uploadArea.addEventListener('click', () => fileInput.click());
+
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.classList.add('dragover');
+            });
+
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.classList.remove('dragover');
+            });
+
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.classList.remove('dragover');
+
+                const files = e.dataTransfer.files;
+                if (files.length > 0) {
+                    handleFile(files[0]);
+                }
+            });
+
+            fileInput.addEventListener('change', (e) => {
+                if (e.target.files.length > 0) {
+                    handleFile(e.target.files[0]);
+                }
+            });
+        }
+
+        // Handle file processing
+        async function handleFile(file) {
+            if (!file.name.toLowerCase().includes('.zip')) {
+                showStatus('Please select a .zip file', 'error');
+                return;
+            }
+
+            showStatus('Processing GDB file... This will analyze ALL non-matching properties.', 'loading');
+            document.getElementById('analysisPanel').style.display = 'block';
+            showProgressBar(true);
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+
+                // Start progress polling
+                const progressInterval = startProgressPolling();
+
+                const response = await fetch('/upload', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                // Stop progress polling
+                clearInterval(progressInterval);
+                showProgressBar(false);
+
+                const result = await response.json();
+
+                if (result.success) {
+                    loadAnalysisData(result);
+                } else {
+                    showStatus('Error: ' + result.error, 'error');
+                }
+
+            } catch (error) {
+                showStatus('Error processing file: ' + error.message, 'error');
+                showProgressBar(false);
+            }
+        }
+
+        // Load analysis data from backend
+        function loadAnalysisData(data) {
+            analysisData = {
+                totalProperties: data.total_properties,
+                nonMatchingCount: data.non_matching_count,
+                analyzedCount: data.analyzed_count,
+                highConfidenceCount: data.high_confidence_count,
+                properties: data.properties,
+                resultsFile: data.results_file,
+                rawDataFile: data.raw_data_file,
+                cleanedDataFile: data.cleaned_data_file
+            };
+
+            updateStats();
+            updatePropertyList();
+            addPropertiesToMap();
+            showStatus(`Analysis complete! Found ${data.properties.length} properties with spatial suggestions. Match rate: ${data.match_percentage.toFixed(1)}%`, 'success');
+
+            document.getElementById('downloadBtn').disabled = false;
+            document.getElementById('viewAllBtn').disabled = false;
+            document.getElementById('downloadRawBtn').disabled = false;
+            document.getElementById('downloadCleanedBtn').disabled = false;
+        }
+
+        // This function is no longer needed as we get real data from backend
+
+        // Update statistics
+        function updateStats() {
+            document.getElementById('totalProperties').textContent = analysisData.totalProperties.toLocaleString();
+            document.getElementById('nonMatchingCount').textContent = analysisData.nonMatchingCount.toLocaleString();
+            document.getElementById('analyzedCount').textContent = analysisData.analyzedCount;
+            document.getElementById('highConfidence').textContent = analysisData.highConfidenceCount;
+        }
+
+        // Update property list
+        function updatePropertyList() {
+            const propertyList = document.getElementById('propertyList');
+            propertyList.innerHTML = '';
+
+            analysisData.properties.forEach(property => {
+                const item = document.createElement('div');
+                item.className = 'property-item';
+                item.dataset.propertyId = property.id;
+
+                const confidence = property.confidence || 0;
+                const confidenceClass = confidence > 0.7 ? 'confidence-high' :
+                                      confidence > 0.5 ? 'confidence-medium' : 'confidence-low';
+
+                // Handle undefined values
+                const currentCode = property.current_code || property.currentCode || 'Unknown';
+                const suggestedCode = property.suggested_code || property.suggestedCode || 'Unknown';
+                const description = property.description || 'No description';
+                const confidenceText = confidence > 0 ? `${(confidence * 100).toFixed(1)}% confidence` : 'No suggestion';
+
+                item.innerHTML = `
+                    <div class="property-address">${property.address}</div>
+                    <div class="property-codes">Current: ${currentCode} → Suggested: ${suggestedCode}</div>
+                    <div class="property-suggestion ${confidenceClass}">
+                        ${confidenceText} - ${description}
+                    </div>
+                `;
+
+                item.addEventListener('click', () => {
+                    selectProperty(property);
+                });
+
+                propertyList.appendChild(item);
+            });
+        }
+
+        // Add properties to map
+        function addPropertiesToMap() {
+            // Clear existing markers
+            propertyMarkers.forEach(marker => map.removeLayer(marker));
+            propertyMarkers = [];
+
+            analysisData.properties.forEach(property => {
+                const confidence = property.confidence || 0;
+                const confidenceClass = confidence > 0.7 ? 'confidence-high' :
+                                      confidence > 0.5 ? 'confidence-medium' : 'confidence-low';
+
+                // Handle undefined values
+                const currentCode = property.current_code || property.currentCode || 'Unknown';
+                const suggestedCode = property.suggested_code || property.suggestedCode || 'Unknown';
+                const description = property.description || 'No description';
+                const nearbyCount = property.nearby_count || property.nearbyCount || 0;
+                const confidenceText = confidence > 0 ? `${(confidence * 100).toFixed(1)}%` : 'No suggestion';
+
+                const marker = L.marker([property.lat, property.lng], {
+                    icon: L.divIcon({
+                        className: `property-marker ${confidenceClass}`,
+                        html: `<div style="background: ${getConfidenceColor(confidence)}; width: 20px; height: 20px; border-radius: 50%; border: 2px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+                        iconSize: [20, 20],
+                        iconAnchor: [10, 10]
+                    })
+                }).addTo(map);
+
+                marker.bindPopup(`
+                    <div class="popup-content">
+                        <div class="popup-address">${property.address}</div>
+                        <div class="popup-codes">
+                            <strong>Current:</strong> ${currentCode}<br>
+                            <strong>Nearby properties:</strong> ${nearbyCount}
+                        </div>
+                        <div class="popup-suggestion">
+                            Suggested: ${suggestedCode} (${description})<br>
+                            Confidence: ${confidenceText}
+                        </div>
+                    </div>
+                `);
+
+                marker.propertyData = property;
+                propertyMarkers.push(marker);
+
+                marker.on('click', () => {
+                    selectProperty(property);
+                });
+            });
+        }
+
+        // Get confidence color
+        function getConfidenceColor(confidence) {
+            if (confidence > 0.7) return '#27ae60';
+            if (confidence > 0.5) return '#f39c12';
+            return '#e74c3c';
+        }
+
+        // Select property
+        function selectProperty(property) {
+            // Update UI selection
+            document.querySelectorAll('.property-item').forEach(item => {
+                item.classList.remove('selected');
+            });
+            document.querySelector(`[data-property-id="${property.id}"]`).classList.add('selected');
+
+            // Center map on property
+            map.setView([property.lat, property.lng], 16);
+
+            // Open popup
+            const marker = propertyMarkers.find(m => m.propertyData.id === property.id);
+            if (marker) {
+                marker.openPopup();
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusMsg = document.getElementById('statusMsg');
+            statusMsg.textContent = message;
+            statusMsg.className = `status ${type}`;
+
+            if (type === 'loading') {
+                statusMsg.innerHTML = `<div class="loading-spinner"></div> ${message}`;
+            }
+        }
+
+        // Download results
+        function downloadResults() {
+            if (!analysisData || !analysisData.resultsFile) return;
+
+            // Download from backend
+            window.open(`/download/${analysisData.resultsFile}`, '_blank');
+        }
+
+        // Download raw data
+        function downloadRawData() {
+            if (!analysisData || !analysisData.rawDataFile) return;
+
+            // Download raw data from backend
+            window.open(`/download-raw/${analysisData.rawDataFile}`, '_blank');
+        }
+
+        // Download cleaned data
+        function downloadCleanedData() {
+            if (!analysisData || !analysisData.cleanedDataFile) return;
+
+            // Download cleaned data from backend
+            window.open(`/download-cleaned/${analysisData.cleanedDataFile}`, '_blank');
+        }
+
+        // Generate CSV content
+        function generateCSV() {
+            let csv = 'Address,Current_Code,Suggested_Code,Confidence,Description,Nearby_Count\n';
+
+            analysisData.properties.forEach(property => {
+                csv += `"${property.address}",${property.currentCode},${property.suggestedCode},${property.confidence.toFixed(3)},"${property.description}",${property.nearbyCount}\n`;
+            });
+
+            return csv;
+        }
+
+        // View all properties
+        function viewAllProperties() {
+            if (propertyMarkers.length > 0) {
+                const group = new L.featureGroup(propertyMarkers);
+                map.fitBounds(group.getBounds().pad(0.1));
+            }
+        }
+
+        // Progress bar functions
+        function showProgressBar(show) {
+            const container = document.getElementById('progressContainer');
+            container.style.display = show ? 'block' : 'none';
+
+            if (!show) {
+                // Reset progress
+                document.getElementById('progressFill').style.width = '0%';
+                document.getElementById('progressText').textContent = 'Processing...';
+            }
+        }
+
+        function updateProgress(current, total, message) {
+            const percentage = total > 0 ? (current / total) * 100 : 0;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent =
+                `${message || 'Processing...'} (${current}/${total} - ${percentage.toFixed(1)}%)`;
+        }
+
+        function startProgressPolling() {
+            return setInterval(async () => {
+                try {
+                    const response = await fetch('/progress');
+                    const progress = await response.json();
+
+                    if (progress.status === 'processing') {
+                        updateProgress(progress.current, progress.total, progress.message);
+                    } else if (progress.status === 'complete') {
+                        updateProgress(progress.total, progress.total, progress.message);
+                    }
+                } catch (error) {
+                    console.log('Progress polling error:', error);
+                }
+            }, 1000); // Poll every second
+        }
+
+        // Initialize application
+        function init() {
+            initMap();
+            setupFileUpload();
+
+            // Event listeners
+            document.getElementById('downloadBtn').addEventListener('click', downloadResults);
+            document.getElementById('viewAllBtn').addEventListener('click', viewAllProperties);
+            document.getElementById('downloadRawBtn').addEventListener('click', downloadRawData);
+            document.getElementById('downloadCleanedBtn').addEventListener('click', downloadCleanedData);
+        }
+
+        // Start application
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
