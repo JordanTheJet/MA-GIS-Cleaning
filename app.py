@@ -459,6 +459,12 @@ def download_cleaned_data(filename):
         return jsonify({'error': f'Error downloading cleaned data: {str(e)}'}), 500
 
 if __name__ == '__main__':
+    import os
+    port = int(os.environ.get('PORT', 8080))
+    debug = os.environ.get('FLASK_ENV', 'development') == 'development'
+
     print("Starting MA GIS USE_CODE Analyzer server...")
-    print("Open your browser to http://localhost:8080")
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    if debug:
+        print(f"Open your browser to http://localhost:{port}")
+
+    app.run(debug=debug, host='0.0.0.0', port=port)
